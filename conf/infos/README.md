@@ -1,6 +1,3 @@
-### 匿名登录  ###
-http://localhost:8080/ngqa/user/login/anonymous 
-
 ### 广告位招租 ###
 详情见[http://howe.im](http://howe.im)
 

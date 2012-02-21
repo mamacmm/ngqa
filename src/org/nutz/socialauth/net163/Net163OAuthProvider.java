@@ -1,4 +1,4 @@
-package org.nutz.socialauth.sohu;
+package org.nutz.socialauth.net163;
 
 import java.util.Map;
 
@@ -18,20 +18,20 @@ import org.nutz.socialauth.AbstractOAuthProvider;
  * @author wendal
  */
 @SuppressWarnings("serial")
-public class SohuOAuthProvider extends AbstractOAuthProvider {
+public class Net163OAuthProvider extends AbstractOAuthProvider {
 
-	public SohuOAuthProvider(final OAuthConfig providerConfig) {
+	public Net163OAuthProvider(final OAuthConfig providerConfig) {
 		super(providerConfig);
-		ENDPOINTS.put(Constants.OAUTH_REQUEST_TOKEN_URL,"http://api.t.sohu.com/oauth/request_token");
-		ENDPOINTS.put(Constants.OAUTH_AUTHORIZATION_URL,"http://api.t.sohu.com/oauth/authorize?hd=default");
-		ENDPOINTS.put(Constants.OAUTH_ACCESS_TOKEN_URL, "http://api.t.sohu.com/oauth/access_token");
+		ENDPOINTS.put(Constants.OAUTH_REQUEST_TOKEN_URL,"http://api.t.163.com/oauth/request_token");
+		ENDPOINTS.put(Constants.OAUTH_AUTHORIZATION_URL,"http://api.t.163.com/oauth/authorize");
+		ENDPOINTS.put(Constants.OAUTH_ACCESS_TOKEN_URL, "http://api.t.163.com/oauth/access_token");
 		AllPerms = new String[] {};
 		AuthPerms = new String[] {};
 		authenticationStrategy = new OAuth1(config, ENDPOINTS);
 		authenticationStrategy.setPermission(scope);
 		authenticationStrategy.setScope(getScope());
 
-		PROFILE_URL = "http://api.t.sohu.com/account/verify_credentials.json";
+		PROFILE_URL = "http://api.t.163.com/users/show.json";
 	}
 
 	@SuppressWarnings("unchecked")
