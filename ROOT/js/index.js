@@ -1,17 +1,28 @@
 $(function() {
-    var questionInfoStr = '<p>{0}&nbsp;({1})</p>';
-    var questionTitleStr = '<p><a href="./question/{0}">{1}</a></p>';
-    var questionTagsStr = '<p></p>';
-    var html = '';
-
-    $.get('./question/query/list.json', function(data) {
+        $.get('./question/query/list.json', function(data) {
         if (data['ok']) {
+            var questionTemplate = '<tr>\
+    <td class="questioner-img">\
+        <img src="./img/img.jpeg" alt="{{ questioner_name }}">\
+    </td>\
+    <td>\
+        <p>{{ questioner_name }}&nbsp;(Question at&nbsp;{{ time }})</p>\
+        <p><a href="./question/{{ id }}">{{ title }}</a></p>\
+        <p>{{{ tags }}}</p>\
+    </td>\
+</tr>';
+            ich.addTemplate("question", questionTemplate);
+            var question_info;
             $.each(data['data']['data'], function (index, value) {
-                html = String.format(questionInfoStr, value['user']['id'], value['createdAt']);
-                html += String.format(questionTitleStr, value['id'], value['title']);
-                html += String.format(questionTagsStr, getTagsHTML(value['tags']));
-                html = String.format('<td class="questioner-img"><img src="{0}" alt="{1}"></td>', './img/img.jpeg', value['user']['id']) + '<td>' + html + '</td>';
-                $("#questions").append($('<tr>' + html +'</tr>'));
+                question_info = {
+                    questioner_name : value['user']['id'],
+                    time : value['createdAt'],
+                    id : value['id'],
+                    title : value['title'].escapeHTML(),
+                    tags : getTagsHTML(value['tags'])
+                };
+
+                $("#questions").append(ich.question(question_info));
             });
         }
     }, "json");
