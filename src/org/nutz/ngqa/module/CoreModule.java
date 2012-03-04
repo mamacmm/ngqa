@@ -6,6 +6,7 @@ import org.bson.types.ObjectId;
 import org.nutz.ioc.annotation.InjectName;
 import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
+import org.nutz.json.Json;
 import org.nutz.lang.Lang;
 import org.nutz.lang.Strings;
 import org.nutz.lang.util.Callback;
@@ -49,7 +50,8 @@ public class CoreModule {
 		question.setUser(user);
 		question.setCreatedAt(new Date());
 		question.setUpdatedAt(new Date());
-		question.setTags(new String[0]);
+		if (question.getTags() == null)
+			question.setTags(new String[0]);
 		question.setAnswers(new Answer[0]);
 		dao.runNoError(new Callback<DB>() { //以安全方式执行,其实就是执行完毕后,执行getError来确保顺利完成
 			public void invoke(DB arg0) {
@@ -150,6 +152,20 @@ public class CoreModule {
 		if (Lang.length(question.getContent()) >= 5 || Lang.length(question.getContent()) <= 100)
 			dao.update(Question.class, new BasicDBObject("_id", new ObjectId(questionId)), Moo.SET("content", question.getContent()));
 		return Ajax.ok();
+	}
+	
+	/**统计全体Tag的数量*/
+	@At("/tags")
+	@Ok("smart:/tag")
+	@Filters() //查询无需任何权限
+	public Object tags() {
+		final Object[] objs = new Object[1];
+		dao.run(new Callback<DB>() {
+			public void invoke(DB db) {
+				objs[0] = db.eval("tags()");
+			}
+		});
+		return objs[0];
 	}
 	
 	@Inject("java:$commons.coll('question')")

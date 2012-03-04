@@ -21,13 +21,14 @@ function getTagsHTML(tags) {
     var questionTags = [];
     $.each(tags, function(index, value) {
         value = $.trim(value.escapeHTML());
-        questionTags.push(String.format('<a href="/tags/{0}">{1}</a>', value, value));
+        questionTags.push(String.format('<a href="./tag/{0}">{1}</a>', value, value));
     });
     return String.format("Question at {0}", questionTags.join(',&nbsp;'));
 }
 
 $(function() {
     loginHTML();
+    tagsInfoHTML();
     footer();
 
     $(".log-width").hide();
@@ -118,4 +119,28 @@ function footer() {
     ich.addTemplate("footer", footerTemplate);
     $("#footer").append(ich.footer({url: encodeURIComponent(window.location.href)}));
     return;
+}
+
+function tagsInfoHTML() {
+    $.get('./tags.json', function(data) {
+        if (data['ok']) {
+            if (data['data']) {
+                $("#infos").prepend($('<div class="box"><ul class="unstyled"><li><b>Not tags info now</b></li></ul></div>'));
+            } else {
+                var tagsTemplate = '<div class="box">\
+                        <ul>\
+                        {{#tags}}\
+                            <li><a href="./tag/{{ name }}">{{ name }}</a>({{ count }})</li>\
+                        {{/tags}}\
+                        </ul>\
+                    </div>';
+                    ich.addTemplate("tags", tagsTemplate);
+                    var tags = [];
+                    $.each(data['data'], function (key, value) {
+                        tags.push({name : key, count : value});
+                    });
+                    $("#infos").prepend(ich.tags({tags: tags}));
+            }
+        }
+    }, "json");
 }

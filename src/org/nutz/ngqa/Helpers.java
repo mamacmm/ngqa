@@ -22,7 +22,7 @@ public class Helpers {
 	public static String makeQuestionURL(Question question) {
 		HttpServletRequest req = Mvcs.getReq();
 		String reqURL = req.getRequestURL().toString();
-		String contextPath = req.getSession().getServletContext().getContextPath() + "/";
+		String contextPath = Mvcs.getServletContext().getContextPath() + "/";
 		String hostRoot = reqURL.substring(0, reqURL.indexOf("/", 8)) + contextPath;
 		return hostRoot + "question/" + question.getId();
 	}
@@ -58,12 +58,12 @@ public class Helpers {
 
 	public static String getInfosHtml() {
 		StringBuilder infosHtml = new StringBuilder();
-		String boxTamplate = "<div class=\"box\">%s</div>";
+		String boxTamplate = "<div class=\"box sep21\">%s</div>";
 
 		for (File file : Files.findFile("infos/").listFiles()) {
 			String html = formatContent(Files.read(file), Files.getSuffixName(file));
 			infosHtml.append(String.format(boxTamplate, html));
-			boxTamplate = "<div class=\"box sep21\">%s</div>";
+//			boxTamplate = "<div class=\"box sep21\">%s</div>";
 		}
 
 		return infosHtml.toString();
@@ -111,4 +111,5 @@ public class Helpers {
 		}
 		return sb.toString();
 	}
+	
 }
