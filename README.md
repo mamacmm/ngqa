@@ -30,11 +30,11 @@ PS:
 	
 * ####建立工程
   
-	* #####JavaWeb项目
+	* ####JavaWeb项目
 		* 建立一个JavaEE工程,网站根目录指向ROOT,而非WebContent,并且不要自动生成web.xml
 		* 发布到tomcat并启动之
 		
-	* #####普通Java项目
+	* ####普通Java项目
 		* 建立工程,把conf文件夹也设置为源文件夹, classes文件输出路径是ROOT/WEB-INF/classes
 		* 将build文件夹中的全部jar,加入Build Path
 		* 将ROOT/WEB-INF/lib下面的全部jar,除log4j之外, 加入Build Path
