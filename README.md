@@ -1,6 +1,13 @@
 ### 匿名登录  ###
 http://localhost:8080/ngqa/user/login/anonymous 
 
+### 部署注意  ###
+在lib包下有两个nutz库，一个是 nutz-1.b.42_x.jar ，另一个是 nutz-1.b.43_x.jar 
+部署到tomcat注意，要去掉老的版本
+
+=====================================================================
+
+
 ### 广告位招租 ###
 详情见[http://howe.im](http://howe.im)
 
